@@ -29,8 +29,7 @@ CORS(app)
         or appropriate status code indicating reason for failure
 '''
 @app.route('/drinks', methods=['GET'])
-@requires_auth('get:drinks-detail')
-def drinks(payload):
+def drinks():
 
 
 
@@ -223,6 +222,18 @@ def not_found(error):
       "error": 405,
       "message": "method not allowed"
     }), 405
+
+
+@app.errorhandler(AuthError)
+def authentification_error(error):
+
+
+    return jsonify({
+      "success": False,
+      "error": error.status_code,
+      "message": error.error,
+    }), 401
+
 
 
 '''
